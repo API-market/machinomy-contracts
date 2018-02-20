@@ -18,7 +18,8 @@
     "contracts/",
     "migrations/",
     "test/",
-    "src/"
+    "src/",
+    "truffle.js"
   ],
   "directories": {
     "test": "test"
