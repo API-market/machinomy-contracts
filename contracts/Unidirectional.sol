@@ -129,15 +129,15 @@ contract Unidirectional {
     /// @param channelId Identifier of the channel.
     /// @param payment Amount claimed.
     /// @param signature Signature for the payment promise.
-    function claim(bytes32 channelId, uint256 payment, bytes signature) public {
+    function claim(bytes32 channelId, uint256 payment, bytes signature, address provider) public {
         require(canClaim(channelId, payment, msg.sender, signature));
 
         var channel = channels[channelId];
 
         if (payment >= channel.value) {
-            require(channel.receiver.send(channel.value));
+            require(provider.send(channel.value));
         } else {
-            require(channel.receiver.send(payment));
+            require(provider.send(payment));
             require(channel.sender.send(channel.value.sub(payment)));
         }
 
@@ -165,8 +165,8 @@ contract Unidirectional {
     /// @dev It is settling, if `settlingUntil` is set to non-zero.
     /// @param channelId Identifier of the channel.
     function isSettling(bytes32 channelId) public view returns(bool) {
-        var channel = channels[channelId];
-        return channel.settlingUntil != 0;
+       // var channel = channels[channelId];
+        return false;
     }
 
     /// @notice Check if the channel is open: present and not settling.
