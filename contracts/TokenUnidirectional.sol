@@ -4,8 +4,9 @@ import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ECRecovery.sol";
 import 'zeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
 
+
 /// @title Unidirectional Ether payment channels contract.
-contract CPUBroker {
+contract TokenUnidirectional {
     using SafeMath for uint256;
 
     struct PaymentChannel {
@@ -33,22 +34,21 @@ contract CPUBroker {
     /// @param receiver Receiver of the funds, counter-party of `msg.sender`.
     /// @param settlingPeriod Number of blocks to wait for receiver to `claim` her funds after the sender starts settling period (see `startSettling`).
     /// After that period is over anyone could call `settle`, and move all the channel funds to the sender.
-    function open(address erc20contract, bytes32 channelId, address receiver, uint32 settlingPeriod, uint value) public payable {
+    function open(bytes32 channelId, address receiver, uint32 settlingPeriod, address erc20contract, uint256 value) public {
         require(isAbsent(channelId));
-        var c = StandardToken(erc20contract);
-        var sender = msg.sender;
-        require(c.transferFrom(sender, address(this), value));
+        var token = StandardToken(erc20contract);
+        require(token.transferFrom(msg.sender, address(this), value));
 
         channels[channelId] = PaymentChannel({
-            sender: sender,
+            sender: msg.sender,
             receiver: receiver,
-            erc20contract: erc20contract,
             value: value,
+            erc20contract: erc20contract,
             settlingPeriod: settlingPeriod,
             settlingUntil: 0
         });
 
-        DidOpen(channelId, msg.sender, receiver, msg.value);
+        DidOpen(channelId, msg.sender, receiver, value);
     }
 
     /// @notice Ensure `origin` address can deposit money into the channel identified by `channelId`.
@@ -63,13 +63,14 @@ contract CPUBroker {
 
     /// @notice Add more money to the contract.
     /// @param channelId Identifier of the channel.
-    function deposit(bytes32 channelId, uint value) public payable {
+    function deposit(bytes32 channelId, uint256 value) public payable {
         require(canDeposit(channelId, msg.sender));
-        var channel = channels[channelId];
-        var c = StandardToken(channel.erc20contract);
-        require(c.transferFrom(channel.sender, address(this), value));
 
-        channels[channelId].value += value;
+        var channel = channels[channelId];
+        var token = StandardToken(channel.erc20contract);
+        require(token.transferFrom(channel.sender, address(this), value));
+
+        channel.value += value;
 
         DidDeposit(channelId, value);
     }
@@ -111,10 +112,9 @@ contract CPUBroker {
     function settle(bytes32 channelId) public {
         require(canSettle(channelId));
         var channel = channels[channelId];
+        var token = StandardToken(channel.erc20contract);
 
-        var c = StandardToken(channel.erc20contract);
-
-        require(c.transfer(channel.sender, channel.value));
+        require(token.transfer(channel.sender, channel.value));
 
         delete channels[channelId];
         DidSettle(channelId);
@@ -142,16 +142,14 @@ contract CPUBroker {
     /// @param signature Signature for the payment promise.
     function claim(bytes32 channelId, uint256 payment, bytes signature, address provider) public {
         require(canClaim(channelId, payment, msg.sender, signature));
-
         var channel = channels[channelId];
-
-        var c = StandardToken(channel.erc20contract);
+        var token = StandardToken(channel.erc20contract);
 
         if (payment >= channel.value) {
-            require(c.transfer(provider, channel.value));
+            require(token.transfer(provider, channel.value));
         } else {
-            require(c.transfer(provider, payment));
-            require(c.transfer(channel.sender, channel.value.sub(payment)));
+            require(token.transfer(provider, payment));
+            require(token.transfer(channel.sender, channel.value.sub(payment)));
         }
 
         delete channels[channelId];
