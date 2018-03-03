@@ -6,7 +6,6 @@ yarn-error.log
 
 **/*.js.map
 **/*.d.ts
-**/*.js
 coverage.json
 coverage/
 
