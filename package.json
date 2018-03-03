@@ -96,7 +96,6 @@
     "zeppelin-solidity": "^1.7.0"
   },
   "dependencies": {
-    "@machinomy/contracts": "^4.0.2",
     "bignumber.js": "4.1.0",
     "buffer": "^5.0.7",
     "ethereumjs-util": "^5.1.3",
