@@ -63,7 +63,12 @@
     "Alexandr Burtovoy <alexandr.burtovoy@machinomy.com>",
     "David Wolever <david@wolever.net>"
   ],
-  "devDependencies": {
+  "dependencies": {
+    "bignumber.js": "4.1.0",
+    "buffer": "^5.0.7",
+    "ethereumjs-util": "^5.1.3",
+    "truffle-contract": "^3.0.4",
+    "web3": "^0.20.5",
     "@machinomy/types-ethereumjs-units": "https://github.com/machinomy/types-ethereumjs-units",
     "@machinomy/types-truffle": "https://github.com/machinomy/types-truffle",
     "@machinomy/types-truffle-artifactor": "https://github.com/machinomy/types-truffle-artifactor",
@@ -96,12 +101,5 @@
     "typescript": "^2.5.3",
     "yargs": "^10.1.1",
     "zeppelin-solidity": "^1.7.0"
-  },
-  "dependencies": {
-    "bignumber.js": "4.1.0",
-    "buffer": "^5.0.7",
-    "ethereumjs-util": "^5.1.3",
-    "truffle-contract": "^3.0.4",
-    "web3": "^0.20.5"
   }
 }
