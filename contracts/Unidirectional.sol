@@ -1,4 +1,4 @@
-pragma solidity 0.4.19;
+pragma solidity 0.4.18;
 
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ECRecovery.sol";
@@ -26,7 +26,7 @@ contract Unidirectional {
     event DidSettle(bytes32 indexed channelId);
 
     /*** ACTIONS AND CONSTRAINTS ***/
-
+    /// machinomy contracts in machinomy on desktop
     /// @notice Open a new channel between `msg.sender` and `receiver`, and do an initial deposit to the channel.
     /// @param channelId Unique identifier of the channel to be created.
     /// @param receiver Receiver of the funds, counter-party of `msg.sender`.

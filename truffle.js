@@ -1,14 +1,15 @@
 const FROM = process.env.FROM
 const PASSWORD = process.env.PASSWORD
 
-const GAS_LIMIT = 7000000
+const GAS_LIMIT = 5000000
 
 module.exports = {
   networks: {
     development: {
       network_id: "*",
       host: "localhost",
-      port: 8545
+      port: 8545,
+      gas: GAS_LIMIT
     },
     ropsten: {
       network_id: 3,

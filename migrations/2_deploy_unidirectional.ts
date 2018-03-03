@@ -16,6 +16,6 @@ module.exports = function (deployer: Deployer) {
     return deployer.deploy(Unidirectional)
   })
   .then(() => {
-    return deployer.deploy(TokenUnidirectional)
+  	return deployer.deploy(TokenUnidirectional)
   })
 }

@@ -2,7 +2,7 @@ pragma solidity 0.4.18;
 
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ECRecovery.sol";
-import 'zeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
+import "zeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 
 
 /// @title Unidirectional Ether payment channels contract.
