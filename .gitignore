@@ -9,6 +9,5 @@ yarn-error.log
 **/*.js
 coverage.json
 coverage/
-build/wrappers
 
 .DS_Store
