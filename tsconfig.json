@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ES2015",
     "module": "commonjs",
-    "lib": [ "es2017" ],
+    "lib": [ "es2015.collection", "es2015", "dom" ], // Not sure what is needed - pulled these from here https://github.com/API-market/machinomy-contracts/commit/8977876de0b167be65240243856c682698e9f08a
     "sourceMap": true,          // Generate corresponding '.map' file
     "declaration": true,        // Generate corresponding '.d.ts' file
     "strict": true,             // Enable all strict type-checking options
